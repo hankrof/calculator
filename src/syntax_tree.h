@@ -1,6 +1,10 @@
 #ifndef SYNTAX_TREE_H
 #define SYNTAX_TREE_H
 #include <string>
+#include <memory>
+class Iterator;
+typedef std::unique_ptr<Iterator> NodeIterator;
+
 //We should implement the bignumber class for OperandType.
 typedef double OperandType;
 class Node
@@ -14,6 +18,8 @@ public:
     virtual Node* right() = 0;
     virtual const Node* left() const = 0;
     virtual const Node* right() const = 0;
+    virtual NodeIterator createIterator() = 0;
+    virtual NodeIterator createIterator() const = 0;
 };
 
 class NodeOperand : public Node
@@ -27,6 +33,8 @@ public:
     Node* right() final;
     const Node *left() const;
     const Node *right() const;
+    NodeIterator createIterator();
+    NodeIterator createIterator() const;
 private:
     OperandType _value;
 };
@@ -42,6 +50,8 @@ public:
     Node* right() final;
     const Node* left() const final;
     const Node* right() const final;
+    NodeIterator createIterator();
+    NodeIterator createIterator() const;
 private:
     char  _op;
     Node *_left;

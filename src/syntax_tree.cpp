@@ -1,6 +1,7 @@
 #include "syntax_tree.h"
 #include <sstream>
 #include <stdexcept>
+#include "node_iterator.h"
 Node::~Node()
 {
     //dummy code, just for linkage.
@@ -51,6 +52,16 @@ const Node* NodeOperand::right() const
     return nullptr;
 }
 
+NodeIterator NodeOperand::createIterator()
+{
+    return NodeIterator(new NodeNullIterator(this));
+}
+
+NodeIterator NodeOperand::createIterator() const
+{
+    return NodeIterator(new NodeNullIterator(this));
+}
+
 NodeOperator::NodeOperator(char op, Node *left, Node *right)
     : _op(op), _left(left), _right(right)
 {
@@ -85,6 +96,18 @@ const Node* NodeOperator::left() const
 const Node* NodeOperator::right() const
 {
     return _right;
+}
+
+//Just for compilation!!!! PLZ change to correct iterator
+NodeIterator NodeOperator::createIterator()
+{
+    return NodeIterator(new NodeNullIterator(this));
+}
+
+//Just for compilation!!!! PLZ change to correct iterator
+NodeIterator NodeOperator::createIterator() const
+{
+    return NodeIterator(new NodeNullIterator(this));
 }
 
 NodeAddOperator::NodeAddOperator(Node *left, Node *right)

@@ -5,17 +5,17 @@ CPP=g++
 CPPFLAGS=-std=c++2a -Wall -Werror -g3
 CPPLIBS=-lgtest -lgtest_main -lpthread
 .PHONY: dirs clean
-all: dirs $(BIN)/ut_syntaxTree $(BIN)/ut_parser $(BIN)/ut_scanner $(BIN)/ut_token
+all: dirs $(BIN)/ut_syntaxTree $(BIN)/ut_nodeIterator $(BIN)/ut_parser $(BIN)/ut_scanner $(BIN)/ut_token
 
-$(BIN)/ut_syntaxTree: $(OBJ)/ut_syntaxTree.o $(OBJ)/syntax_tree.o
-	$(CPP) $(CPPFLAGS) -o $(BIN)/ut_syntaxTree $(OBJ)/ut_syntaxTree.o $(OBJ)/syntax_tree.o $(CPPLIBS)
+$(BIN)/ut_syntaxTree: $(OBJ)/ut_syntaxTree.o $(OBJ)/syntax_tree.o $(OBJ)/node_iterator.o
+	$(CPP) $(CPPFLAGS) -o $(BIN)/ut_syntaxTree $(OBJ)/ut_syntaxTree.o $(OBJ)/syntax_tree.o $(OBJ)/node_iterator.o $(CPPLIBS)
 $(OBJ)/ut_syntaxTree.o: ut_syntaxTree.cpp
 	$(CPP) $(CPPFLAGS) -o $(OBJ)/ut_syntaxTree.o -c ut_syntaxTree.cpp
 $(OBJ)/syntax_tree.o: $(SRC)/syntax_tree.h $(SRC)/syntax_tree.cpp
 	$(CPP) $(CPPFLAGS) -o $(OBJ)/syntax_tree.o -c $(SRC)/syntax_tree.cpp
 
-$(BIN)/ut_nodeIterator: $(OBJ)/ut_nodeIterator.o $(OBJ)/node_iterator.o
-	$(CPP) $(CPPFLAGS) -o $(BIN)/ut_nodeIterator $(OBJ)/ut_nodeIterator.o $(OBJ)/node_iterator.o $(CPPLIBS)
+$(BIN)/ut_nodeIterator: $(OBJ)/ut_nodeIterator.o $(OBJ)/syntax_tree.o $(OBJ)/node_iterator.o
+	$(CPP) $(CPPFLAGS) -o $(BIN)/ut_nodeIterator $(OBJ)/syntax_tree.o $(OBJ)/ut_nodeIterator.o $(OBJ)/node_iterator.o $(CPPLIBS)
 $(OBJ)/ut_nodeIterator.o: ut_nodeIterator.cpp $(OBJ)/node_iterator.o
 	$(CPP) $(CPPFLAGS) -o $(OBJ)/ut_nodeIterator.o -c ut_nodeIterator.cpp
 $(OBJ)/node_iterator.o: $(SRC)/node_iterator.h $(SRC)/node_iterator.cpp

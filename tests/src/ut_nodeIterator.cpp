@@ -6,11 +6,12 @@ int main(int argc, char **argv)
     return RUN_ALL_TESTS();
 }
 
-TEST(Iterator, CreateInfixIterator)
+TEST(NodeIterator, CreateNullIterator)
 {
-    Node *num1 = new NodeOperand(1);
-    Node *num2 = new NodeOperand(2);
-    Node *add  = new NodeAddOperator(num1, num2);
-    Iterator *infixIterator = new NodeInfixIterator(add);
-    
+    Node *num = new NodeOperand(1);
+    NodeIterator iter = num->createIterator();
+    iter->begin();
+    ASSERT_EQ(nullptr, iter->item());
+    ASSERT_EQ(true,    iter->end());
 }
+
