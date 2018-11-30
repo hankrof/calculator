@@ -1,7 +1,8 @@
 #include "syntax_tree.h"
+#include "node_iterator.h"
+#include "node_const_iterator.h"
 #include <sstream>
 #include <stdexcept>
-#include "node_iterator.h"
 Node::~Node()
 {
     //dummy code, just for linkage.
@@ -52,14 +53,34 @@ const Node* NodeOperand::right() const
     return nullptr;
 }
 
-NodeIterator NodeOperand::createIterator()
+NodeIterator NodeOperand::createPrefixIterator()
 {
-    return NodeIterator(new NodeNullIterator(this));
+    return NodeIterator(new NodeOperandIterator(this));
 }
 
-NodeIterator NodeOperand::createIterator() const
+NodeConstIterator NodeOperand::createPrefixIterator() const
 {
-    return NodeIterator(new NodeNullIterator(this));
+    return NodeConstIterator(new NodeOperandConstIterator(this));
+}
+
+NodeIterator NodeOperand::createInfixIterator()
+{
+    return NodeIterator(new NodeOperandIterator(this));
+}
+
+NodeConstIterator NodeOperand::createInfixIterator() const
+{
+    return NodeConstIterator(new NodeOperandConstIterator(this));
+}
+
+NodeIterator NodeOperand::createPostfixIterator()
+{
+    return NodeIterator(new NodeOperandIterator(this));
+}
+
+NodeConstIterator NodeOperand::createPostfixIterator() const
+{
+    return NodeConstIterator(new NodeOperandConstIterator(this));
 }
 
 NodeOperator::NodeOperator(char op, Node *left, Node *right)
@@ -98,16 +119,34 @@ const Node* NodeOperator::right() const
     return _right;
 }
 
-//Just for compilation!!!! PLZ change to correct iterator
-NodeIterator NodeOperator::createIterator()
+NodeIterator NodeOperator::createPrefixIterator()
 {
-    return NodeIterator(new NodeNullIterator(this));
+    return NodeIterator(new NodePrefixOperatorIterator(this));
 }
 
-//Just for compilation!!!! PLZ change to correct iterator
-NodeIterator NodeOperator::createIterator() const
+NodeConstIterator NodeOperator::createPrefixIterator() const
 {
-    return NodeIterator(new NodeNullIterator(this));
+    return NodeConstIterator(new NodePrefixOperatorConstIterator(this));
+}
+
+NodeIterator NodeOperator::createInfixIterator()
+{
+    return NodeIterator(new NodeInfixOperatorIterator(this));
+}
+
+NodeConstIterator NodeOperator::createInfixIterator() const
+{
+    return NodeConstIterator(new NodeInfixOperatorConstIterator(this));
+}
+
+NodeIterator NodeOperator::createPostfixIterator()
+{
+    return NodeIterator(new NodePostfixOperatorIterator(this));
+}
+
+NodeConstIterator NodeOperator::createPostfixIterator() const
+{
+    return NodeConstIterator(new NodePostfixOperatorConstIterator(this));
 }
 
 NodeAddOperator::NodeAddOperator(Node *left, Node *right)

@@ -7,19 +7,21 @@ CPPLIBS=-lgtest -lgtest_main -lpthread
 .PHONY: dirs clean
 all: dirs $(BIN)/ut_syntaxTree $(BIN)/ut_nodeIterator $(BIN)/ut_parser $(BIN)/ut_scanner $(BIN)/ut_token
 
-$(BIN)/ut_syntaxTree: $(OBJ)/ut_syntaxTree.o $(OBJ)/syntax_tree.o $(OBJ)/node_iterator.o
-	$(CPP) $(CPPFLAGS) -o $(BIN)/ut_syntaxTree $(OBJ)/ut_syntaxTree.o $(OBJ)/syntax_tree.o $(OBJ)/node_iterator.o $(CPPLIBS)
+$(BIN)/ut_syntaxTree: $(OBJ)/ut_syntaxTree.o $(OBJ)/syntax_tree.o $(OBJ)/node_iterator.o $(OBJ)/node_const_iterator.o
+	$(CPP) $(CPPFLAGS) -o $(BIN)/ut_syntaxTree $(OBJ)/ut_syntaxTree.o $(OBJ)/syntax_tree.o $(OBJ)/node_iterator.o $(OBJ)/node_const_iterator.o $(CPPLIBS)
 $(OBJ)/ut_syntaxTree.o: ut_syntaxTree.cpp
 	$(CPP) $(CPPFLAGS) -o $(OBJ)/ut_syntaxTree.o -c ut_syntaxTree.cpp
 $(OBJ)/syntax_tree.o: $(SRC)/syntax_tree.h $(SRC)/syntax_tree.cpp
 	$(CPP) $(CPPFLAGS) -o $(OBJ)/syntax_tree.o -c $(SRC)/syntax_tree.cpp
 
-$(BIN)/ut_nodeIterator: $(OBJ)/ut_nodeIterator.o $(OBJ)/syntax_tree.o $(OBJ)/node_iterator.o
-	$(CPP) $(CPPFLAGS) -o $(BIN)/ut_nodeIterator $(OBJ)/syntax_tree.o $(OBJ)/ut_nodeIterator.o $(OBJ)/node_iterator.o $(CPPLIBS)
+$(BIN)/ut_nodeIterator: $(OBJ)/ut_nodeIterator.o $(OBJ)/syntax_tree.o $(OBJ)/node_iterator.o $(OBJ)/node_const_iterator.o
+	$(CPP) $(CPPFLAGS) -o $(BIN)/ut_nodeIterator $(OBJ)/syntax_tree.o $(OBJ)/ut_nodeIterator.o $(OBJ)/node_iterator.o $(OBJ)/node_const_iterator.o $(CPPLIBS)
 $(OBJ)/ut_nodeIterator.o: ut_nodeIterator.cpp $(OBJ)/node_iterator.o
 	$(CPP) $(CPPFLAGS) -o $(OBJ)/ut_nodeIterator.o -c ut_nodeIterator.cpp
 $(OBJ)/node_iterator.o: $(SRC)/node_iterator.h $(SRC)/node_iterator.cpp
 	$(CPP) $(CPPFLAGS) -o $(OBJ)/node_iterator.o -c $(SRC)/node_iterator.cpp
+$(OBJ)/node_const_iterator.o: $(SRC)/node_const_iterator.h $(SRC)/node_const_iterator.cpp
+	$(CPP) $(CPPFLAGS) -o $(OBJ)/node_const_iterator.o -c $(SRC)/node_const_iterator.cpp
 
 $(BIN)/ut_token: $(OBJ)/ut_token.o $(OBJ)/token.o
 	$(CPP) $(CPPFLAGS) -o $(BIN)/ut_token $(OBJ)/ut_token.o $(OBJ)/token.o $(CPPLIBS)
@@ -41,7 +43,6 @@ $(OBJ)/ut_parser.o: ut_parser.cpp $(OBJ)/parser.o
 	$(CPP) $(CPPFLAGS) -o $(OBJ)/ut_parser.o -c ut_parser.cpp
 $(OBJ)/parser.o: $(SRC)/parser.h $(SRC)/parser.cpp
 	$(CPP) $(CPPFLAGS) -o $(OBJ)/parser.o -c $(SRC)/parser.cpp
-
 
 dirs:
 	mkdir -p $(BIN)

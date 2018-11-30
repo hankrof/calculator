@@ -11,25 +11,51 @@ public:
     virtual bool  end  ()  = 0;
 };
 
-class NodeNullIterator : public Iterator
+class NodeOperandIterator : public Iterator
 {
 public:
-    NodeNullIterator(const Node *n);
+    NodeOperandIterator(Node *n);
+    NodeOperandIterator(const Node *n);
     void  begin();
     void  next ();
     Node* item ();
     bool  end  ();
 };
 
+
 class NodeInfixOperatorIterator : public Iterator
 {
 public:
-    NodeInfixOperatorIterator(const Node *n);
+    NodeInfixOperatorIterator(Node *n);
     void  begin();
     void  next ();
     Node* item ();
     bool  end  ();
 private:
+    void initBufferedNodes();
+    int _idx;
+    Node *_root;
     std::vector<Node*> _bufferedNodes;
 };
+
+class NodePrefixOperatorIterator : public Iterator
+{
+public:
+    NodePrefixOperatorIterator(Node *n);
+    void  begin();
+    void  next ();
+    Node* item ();
+    bool  end  ();
+};
+
+class NodePostfixOperatorIterator : public Iterator
+{
+public:
+    NodePostfixOperatorIterator(Node *n);
+    void  begin();
+    void  next ();
+    Node* item ();
+    bool  end  ();
+};
+
 #endif
