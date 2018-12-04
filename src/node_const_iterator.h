@@ -20,13 +20,13 @@ public:
     bool  end() const;
 };
 
-class NodeInfixOperatorConstIterator : public ConstIterator
+class NodePrefixOperatorConstIterator : public ConstIterator
 {
 public:
-    NodeInfixOperatorConstIterator(const Node *n);
+    NodePrefixOperatorConstIterator(const Node *n);
     void  begin() const;
-    void  next () const;
-    const Node* item () const;
+    void  next() const;
+    const Node* item() const;
     bool  end() const;
 private:
     void initBufferedNodes() const;
@@ -35,13 +35,13 @@ private:
     mutable std::vector<const Node*> _bufferedNodes;
 };
 
-class NodePrefixOperatorConstIterator : public ConstIterator
+class NodeInfixOperatorConstIterator : public ConstIterator
 {
 public:
-    NodePrefixOperatorConstIterator(const Node *n);
+    NodeInfixOperatorConstIterator(const Node *n);
     void  begin() const;
-    void  next() const;
-    const Node* item() const;
+    void  next () const;
+    const Node* item () const;
     bool  end() const;
 private:
     void initBufferedNodes() const;
